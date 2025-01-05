@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter Scraping</title>
+</head>
+<body>
+  <h1>Web Scraping with Selenium</h1>
+  <button id="scrapeBtn">Click here to run the script</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('scrapeBtn').onclick = async function() {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = 'Running the script...';
+
+      try {
+        const response = await fetch('/run-scraper');
+        const data = await response.json();
+
+        resultDiv.innerHTML = `
+          <h2>${data.message}</h2>
+          <ul>
+            <li>${data.trends[0]}</li>
+            <li>${data.trends[1]}</li>
+            <li>${data.trends[2]}</li>
+            <li>${data.trends[3]}</li>
+            <li>${data.trends[4]}</li>
+          </ul>
+          <button onclick="window.location.reload()">Click here to run the query again.</button>
+        `;
+      } catch (err) {
+        resultDiv.innerHTML = 'Error running the script. Please try again later.';
+      }
+    };
+  </script>
+</body>
+</html>
